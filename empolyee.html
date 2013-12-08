@@ -1,0 +1,242 @@
+
+
+<html>
+
+<head>
+   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+
+<link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<script src="http://getbootstrap.com/dist/js/bootstrap.js"></script>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<link href="css/main.css" rel="stylesheet" type="text/css" />
+<meta charset=utf-8 />
+<title>Joucy solution | solution for your attenadnce system</title>
+<script type="text/javascript">
+
+$( document ).ready(function() {
+  /*Select podla pozicie po kliknuti*/
+  $('.pozicie').click( function() {
+    /*najprv zobrazim vsetky ak uz bolo predtym daco ien dane..*/
+      $( ".name_of_employee" ).each(function( index ) {
+           $( this ).parent().show();
+      });
+     var vybrana_pozicia = $(this).text();  
+     $( ".pozicia" ).each(function( index ) {
+        if($( this ).text() !== vybrana_pozicia){
+          $( this ).parent().hide();
+        }
+      });
+       
+    return false; 
+  });
+
+/*
+  pomocna funkcia*/
+  function stringContains(inputString, stringToFind) 
+{
+    return (inputString.indexOf(stringToFind) != -1);
+}
+
+/*teraz hladam zhodu mien pri klkinuti do inputu..*/
+
+
+var posledna_dlzka_hladaneho_slova = 0;
+
+  $('#meno').bind('input', function() { 
+   var hladany_retazec = $(this).val().toLowerCase();
+   if(posledna_dlzka_hladaneho_slova > hladany_retazec.length){
+          $( ".name_of_employee" ).each(function( index ) {
+               $( this ).parent().show();
+          });
+      }
+    $( ".name_of_employee" ).each(function( index ) {
+        if (hladany_retazec !==''){
+            if(!stringContains($( this ).text().toLowerCase(),hladany_retazec)){
+            $( this ).parent().hide();
+            }
+        }
+        else{
+          $( this ).parent().show();
+        }
+
+      posledna_dlzka_hladaneho_slova = hladany_retazec.length;
+    
+    });
+
+});
+
+
+
+
+
+});
+</script>
+<style type="text/css">
+
+.list-group-item .active{
+  background-color: red;
+}
+.bold{
+  font-weight: bold;
+}
+.seducka {
+  background-color: #eaeaea;
+}
+.zelena {
+  color: #00a810;
+}
+.cervena {
+  color: #ff0000;
+}
+.cierna {
+ background-color: #6a6363
+}
+.font-velky{
+  font-size: 28;
+}
+.border-sedy{
+  border: 1px solid red;
+}
+.ziadny-padding{
+  padding-bottom: 0px;
+  padding-top : 0px;
+}
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+
+  <div class="container">
+    <div class="navbar-header">
+
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    <div class="navbar-inner">
+      <a class="brand" href="#">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img width ="228" src="img/logo2.png"></a>
+     </div>
+    </div>
+    <div class="collapse navbar-collapse pull-right">
+      <ul class="nav navbar-nav">
+        <li ><a href="index.html"<span class= "font">Home</span></a></li>
+        <li ><a href="about.html"<span class= "font">About</span></a></li>
+        <li class="active"><a href="admin.html"><span class= "font">Admin</span></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  
+  </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+
+      <div class="col-md-3">
+                  <div class="list-group">
+             <a class="list-group-item" href="admin.html">
+            <div  >
+           Dashboard<span class="glyphicon glyphicon-home pull-right"></span>
+            </div>
+          </a>
+           <a class="list-group-item active" href="empolyee.html">
+          Employess<span class="glyphicon glyphicon-user pull-right"></span>
+            </a>
+            <a class="list-group-item" href="events.html">
+          Events<span class="glyphicon glyphicon-lock pull-right"></span>
+            </a>
+               <a class="list-group-item" href="stats.html">
+          Stats<span class="glyphicon glyphicon-stats pull-right"></span>
+            </a>
+             <a class="list-group-item" href="customize.html">
+          Customize<span class="glyphicon glyphicon-cog pull-right"></span>
+            </a>
+            
+ 
+          </div>
+          <br><br>
+           <div class="list-group">
+
+        <a class="list-group-item" href="help.html">
+          Help<span class="  glyphicon glyphicon-info-sign pull-right"></span>
+            </a>
+          </div>
+      </div>
+
+       <div class="col-md-9">
+               <span class="font seda bold">Empolyees</span><br><br>
+      
+               
+          <div class="panel panel-default">
+            <div class="panel-heading"><span class="bold">LIst of employees</span></div>
+
+            <div class="row">
+             <!--  row nad listom empolye tj vyhldavanie + filtrovanie -->
+               <div class="col-md-7 ">
+                <br>
+                  <div class="input-group">
+                    <span class="input-group-addon">Search</span>
+                    <input id="meno" type="text" class="form-control" placeholder="Username">
+                  </div>
+                 </div>
+                  <div class="col-md-4 col-md-offset-1">
+                     <ul class="pagination">  
+                        <li><a class="pozicie" href="#">Service</a></li>
+                        <li><a class="pozicie" href="#">Picker</a></li>
+                      </ul>
+                 </div>
+              </div>
+            
+            <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            
+              <th>Name</th>
+              <th>Position</th>
+               <th>Options</th>
+           
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+           
+            <td> 1</td>
+            <td class="name_of_employee"><a href="profile.html" class="">Mark Huge</a></td>
+      
+            <td class="pozicia">Service</td>
+             <td><a href="profile.html"><button type="button" class="btn btn-danger">Departure</button></a></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td class="name_of_employee"><a href="profile.html"class="">Jacob Nahbay</a></td>
+          
+            <td class="pozicia">Picker</td>
+            <td><a href="profile.html"><button type="button" class="btn btn-success"> &nbsp&nbsp Arrival &nbsp&nbsp</button></a></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td class="name_of_employee"><a href="profile.html"class="  ">Larry on fly</a></td>
+   
+            <td class="pozicia">Picker</td>
+            <td><a href="profile.html"><button type="button" class="btn btn-success">&nbsp&nbsp Arrival &nbsp&nbsp</button></a></td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+     
+      </div><!-- koniec celeho borderu imaginarneho -->
+  
+
+
+</div>
+
+</body>
+</html>

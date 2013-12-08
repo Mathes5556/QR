@@ -1,3 +1,63 @@
+.twitter-typeahead .tt-query,
+.twitter-typeahead .tt-hint {
+  margin-bottom: 0;
+}
+
+.tt-dropdown-menu {
+  min-width: 160px;
+  margin-top: 2px;
+  padding: 5px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0,0,0,.2);
+  *border-right-width: 2px;
+  *border-bottom-width: 2px;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+          box-shadow: 0 5px 10px rgba(0,0,0,.2);
+  -webkit-background-clip: padding-box;
+     -moz-background-clip: padding;
+          background-clip: padding-box;
+}
+
+.tt-suggestion {
+  display: block;
+  padding: 3px 20px;
+}
+
+.tt-suggestion.tt-is-under-cursor {
+  color: #fff;
+  background-color: #0081c2;
+  background-image: -moz-linear-gradient(top, #0088cc, #0077b3);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0077b3));
+  background-image: -webkit-linear-gradient(top, #0088cc, #0077b3);
+  background-image: -o-linear-gradient(top, #0088cc, #0077b3);
+  background-image: linear-gradient(to bottom, #0088cc, #0077b3);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0)
+}
+
+.tt-suggestion.tt-is-under-cursor a {
+  color: #fff;
+}
+
+.tt-suggestion p {
+  margin: 0;
+}
+
+.twitter-typeahead .tt-hint {
+    display: block;
+    height: 38px;
+    padding: 8px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    border: 1px solid transparent;
+}
+
+
 .navbar-default {
     background-color: #ffffff;
     border-color: #ffffff;
@@ -78,13 +138,50 @@
 .oranzova{
     color: #fea312;
 }
+.oranzova-jemna{
+    color: #ffc365;
+}
+
 .seda{
     color: #8c959d;
 }
+
 .right-border{
     border-right: 1px solid #8c959d;
 }
-
-.border-oranzovy-cely{
-    border-color: #fea312;
+.left-border{
+    border-left: 1px solid #8c959d;
 }
+.list-group-item .active{
+  background-color: red;
+}
+.bold{
+  font-weight: bold;
+}
+.seducka {
+  background-color: #eaeaea;
+}
+.zelena {
+  color: #00a810;
+}
+.cervena {
+  color: #ff0000;
+}
+.cierna {
+ background-color: #6a6363
+}
+.font-velky{
+  font-size: 28;
+}
+.border-sedy{
+  border: 1px solid red;
+}
+.ziadny-padding{
+  padding-bottom: 0px;
+  padding-top : 0px;
+}
+.max {
+  display: none;
+}
+
+

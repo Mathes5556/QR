@@ -16,36 +16,53 @@
 <title>Joucy solution | solution for your attenadnce system</title>
 <script type="text/javascript">
 $( document ).ready(function() {
-var chart = new Highcharts.Chart({
+  $('.pb').css({
+    'background-image': 'none',
+    'background-color': '#ffba4e'
+});
 
-    
+  /*prvy chart o prichdooch/odchodoc*/
+var chart = new Highcharts.Chart({
+   title: {
+                text: 'Arrivals/Departures',
+               style: {
+                   color: '#fea312',
+                  
+                }
+                          
+            },
     chart: {
             //alignTicks: false,
+
             type: 'line',
     renderTo: 'a'
         },
         xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            categories: [6, 6.30, 7, 7.30,8 , 8.30, 9, 9.30,10 , 10.30, 11, 11.30],
+
         },
         yAxis: [{
+
+            min: 0, 
+       
+            tickInterval:1,
             title: {
-                text: 'Primary Axis'
+                text: 'Arrivals/Departures',
+                style: {
+                   color: '#fea312',
+                  
+                }
             },
-            gridLineWidth: 0
-        }, {
-            title: {
-                text: 'Secondary Axis'
-            },
-            opposite: true
+
         }],
         legend: {
             layout: 'vertical',
             backgroundColor: '#FFFFFF',
             floating: true,
             align: 'left',
-            x: 100,
+            x: 45 ,
             verticalAlign: 'top',
-            y: 70
+            y: 0
         },
         tooltip: {
             formatter: function() {
@@ -56,15 +73,74 @@ var chart = new Highcharts.Chart({
         plotOptions: {
         },
         series: [{
-            data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+          //prichody
+            data: [0, 2, 0, 2, 1, 0, 0, 0, 0, 0, 2, 0],
+            name: 'Arrivals',
+            color: '#fea312'
             
         }, {
-            data: [129.9, 271.5, 306.4, 29.2, 544.0, 376.0, 435.6, 348.5, 216.4, 294.1, 35.6, 354.4],
-            yAxis: 1
+         /* ODCHODY*/
+            data: [0, 0, 0, 0,0, 0, 2, 0, 0, 1, 0, 0],
+            yAxis: 0,
+            name: 'Departures',
+            color: 'gray'
             
         }]
 
   });
+
+
+/*druhy chart o pocte ludi na pracosvisku*/
+var chart = new Highcharts.Chart({
+        title: {
+                text: 'Count of people in work',
+                  style: {
+                   color: '#fea312',
+                  
+                }
+            },
+        chart: {
+            //alignTicks: false,
+            type: 'line',
+    renderTo: 'b'
+        },
+        xAxis: {
+            categories: [6, 6.30, 7, 7.30,8 , 8.30, 9, 9.30,10 , 10.30, 11, 11.30],
+
+        },
+        yAxis: [{
+
+            min: 0, 
+       
+            tickInterval:1,
+            title: {
+                text: 'Arrivals/Departures',
+                  style: {
+                   color: '#fea312',
+                  
+                }
+            },
+          
+        }],
+        
+        tooltip: {
+            formatter: function() {
+                return '<b>'+ this.series.name +'</b><br/>'+
+                    this.x +': '+ this.y;
+            }
+        },
+        plotOptions: {
+        },
+        series: [{
+          //PRICHODY
+            data: [0, 2, 2, 4, 4, 4,4, 3, 3, 3, 3, 3],
+            name: 'Arrivals',
+            color: '#fea312'
+            
+        }]
+
+  });
+
 });
 </script>
 <style type="text/css">
@@ -76,7 +152,7 @@ var chart = new Highcharts.Chart({
   font-weight: bold;
 }
 .seducka {
-  background-color: #dedede;
+  background-color: #F8F8F8 ;
 }
 .zelena {
   color: #00a810;
@@ -84,8 +160,18 @@ var chart = new Highcharts.Chart({
 .cervena {
   color: #ff0000;
 }
+.cierna {
+ background-color: #6a6363
+}
 .font-velky{
   font-size: 28;
+}
+.border-sedy{
+  border: 1px solid red;
+}
+.ziadny-padding{
+  padding-bottom: 0px;
+  padding-top : 0px;
 }
 </style>
 </head>
@@ -122,15 +208,32 @@ var chart = new Highcharts.Chart({
 
       <div class="col-md-3">
           <div class="list-group">
-            <a href="#" class="list-group-item active">Dashboard</a>
-            <a href="#" class="list-group-item">Employess</a>
-            <a href="#" class="list-group-item">Events</a>
-            <a href="#" class="list-group-item">Stats</a>
-            <a href="#" class="list-group-item">Chceck employee</a> 
+             <a class="list-group-item active" href="admin.html">
+            <div  >
+           Dashboard<span class="glyphicon glyphicon-home pull-right"></span>
+            </div>
+          </a>
+           <a class="list-group-item" href="empolyee.html">
+          Employess<span class="glyphicon glyphicon-user pull-right"></span>
+            </a>
+            <a class="list-group-item" href="events.html">
+          Events<span class="glyphicon glyphicon-lock pull-right"></span>
+            </a>
+               <a class="list-group-item" href="stats.html">
+          Stats<span class="glyphicon glyphicon-stats pull-right"></span>
+            </a>
+             <a class="list-group-item" href="customize.html">
+          Customize<span class="glyphicon glyphicon-cog pull-right"></span>
+            </a>
+            
+ 
           </div>
           <br><br>
            <div class="list-group">
-            <a href="#" class="list-group-item">Help</a>
+
+        <a class="list-group-item" href="help.html">
+          Help<span class="  glyphicon glyphicon-info-sign pull-right"></span>
+            </a>
           </div>
       </div>
 
@@ -143,32 +246,67 @@ var chart = new Highcharts.Chart({
             
               <div class="row">
                   <!-- zaciatok jedneho stvorca -->
-                  <div class="col-md-3 col-md-offset-1">
-                    <span class="font-maly seda bold ">&nbsp Employee in work</span>
+                  <br>
+                  <div class="col-md-4 col-md-offset-0 ">
+                    <span class="font-maly  bold seda">&nbsp Employee in work</span>
+                    <div class="panel panel-default seducka border">
+                      <div class="panel-body">
+                             <ul class="list-group">
+                              <li class="list-group-item zelena">
+                                <span class="badge">3</span>
+                                <a class="oranzova" href="">IN</a>
+                              </li>
+                              <li class="list-group-item zelena">
+                                <span class="badge ">1</span>
+                                 <a class="oranzova" href="">MISS</a>
+                              </li>
+                            </ul>
+                            
+                      </div>
+                    </div>
+                  </div>
+                  <!-- koniec jedneho stvorca -->
+                  <!-- zaciatok jedneho stvorca -->
+                  <div class="col-md-4 col-md-offset-0">
+                    <span class="font-maly seda bold ">&nbsp Work's hours today</span>
                     <div class="panel panel-default seducka">
                       <div class="panel-body">
-                              <span class="font"> IN</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span class=" font-velky zelena">3</span><br>
-                               <span class="font"> MISS</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span class=" font-velky cervena">1</span> 
+
+                              <span class="font"> Already worked</span><span class=" font-velky oranzova">&nbsp&nbsp 3:45</span><br>
+                                  <br>
+                               <span class="font"> Remaining</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span class=" font-velky oranzova">12:15</span> 
                       </div>
                       </div>
                   </div>
                   <!-- koniec jedneho stvorca -->
-                  <!-- zaciatok jedneho stvorca -->
-                  <div class="col-md-4 col-md-offset-2">
-                    <span class="font-maly seda bold ">&nbsp Work's hours today</span>
-                    <div class="panel panel-default seducka">
-                      <div class="panel-body">
-                              <span class="font"> Already worked</span><span class=" font-velky zelena">&nbsp&nbsp 3:45</span><br>
-                               <span class="font"> Remaining</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span class=" font-velky cervena">12:15</span> 
+                                    <!-- zaciatok jedneho stvorca -->
+                  <div class="col-md-4 col-md-offset-0">
+                    <span class="font-maly seda bold ">&nbsp Event's in progress</span>
+                    <div class="panel panel-default seducka ">
+                      <div class="panel-body ziadny-padding">
+                            <!--   prvy event + progresbar -->
+                              <span class="font"><a href="profil-events.html"  class=""> Daily routine in factory</a></span>
+                              <div class="progress">
+                                  <div class="progress-bar  progress-bar pb" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 15%;">
+                              <span class="sr-only">60% Complete</span>
+                            </div>
+                          </div>
+                                <!--   druhy event + progresbar -->
+                               <span class="font"> <a href="profil-events.html"  class="">Snow shoveling</a></span> <div class="progress">
+                                  <div class="progress-bar  progress-bar pb" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 85%;">
+                              <span class="sr-only">60% Complete</span>
+                            </div>
+                          </div>          
                       </div>
-                      </div>
+                    </div>
                   </div>
                   <!-- koniec jedneho stvorca -->
              </div><!-- koniec rowu -->
 
               <div class="row">
           <!-- zaciatok jedneho stvorca -->
-                  <div class="col-md-4 col-md-offset-1">
+          <!-- na pravo vedla grafu -->
+                  <div class="col-md-4 col-md-offset-0">
                      <span class="font-maly seda bold ">&nbsp Empoloyee in work</span>
                      <div class="panel panel-default seducka">
                       <div class="panel-body">
@@ -182,19 +320,47 @@ var chart = new Highcharts.Chart({
                                 Jozko Mrkvicka
                               </li>
                               <li class="list-group-item">
-                                <span class="badge">3:45</span>
+                                <span class="badge" >3:45</span>
+                                Peter Mukel
+                              </li>
+                            </ul>
+                      </div>
+                      </div>  
+                    <!-- na pravo vedla grafu druhy -->
+                     <span class="font-maly seda bold">&nbsp Tommorows delay</span>
+                     <div class="panel panel-default seducka">
+                      <div class="panel-body">
+                            <ul class="list-group">
+                              <li class="list-group-item">
+                                <span class="badge">0:25</span>
+                                Janko Hrasko
+                              </li>
+                              <li class="list-group-item">
+                                <span class="badge">0:04</span>
+                                Jozko Mrkvicka
+                              </li>
+                              <li class="list-group-item">
+                                <span class="badge">0:01</span>
                                 Peter Mukel
                               </li>
                             </ul>
                       </div>
                       </div>  
                   </div>
-                  <div class="col-md-7 col-md-offset-0">
-                       <span class="font-maly seda bold ">&nbsp Arrivals</span>
+                  <div class="col-md-8 col-md-offset-0">
+                        <!-- prvy graf -->
+                       <span class="font-maly seda bold ">&nbsp Arrivals/Departures</span>
                        <div class="panel panel-default seducka">
-                     <div class="panel-body">
-                      <div id="a" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
-                         </div>
+                           <div class="panel-body">
+                              <div id="a" style="min-width: 200px; height: 300px; margin: 0 auto"></div>
+                           </div>
+                        </div>
+                        <!-- druhy graf -->
+                      <span class="font-maly seda bold ">&nbsp Progress count of people in work</span>
+                       <div class="panel panel-default seducka">
+                           <div class="panel-body">
+                              <div id="b" style="min-width: 200px; height: 300px; margin: 0 auto"></div>
+                           </div>
                         </div>
              </div><!-- koniec rowu -->
   
