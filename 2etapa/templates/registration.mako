@@ -13,7 +13,7 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 
-<link href="css/main.css" rel="stylesheet" type="text/css" />
+<link href="${request.static_path('project:static/css/main.css')}" rel="stylesheet" type="text/css" />
 <meta charset=utf-8 />
 <title>Joucy solution | solution for your attenadnce system</title>
   
@@ -31,7 +31,7 @@
         <span class="icon-bar"></span>
       </button>
     <div class="navbar-inner">
-      <a class="brand" href="#">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img width ="228" src="img/logo2.png"></a>
+      <a class="brand" href="#">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img width ="228" src="${request.static_path('project:static/img/logo2.png')}"></a>
      </div>
     </div>
     <div class="collapse navbar-collapse pull-right">
@@ -50,17 +50,18 @@
   <div class="row">
          <div class="col-md-offset-4 col-md-4 border-oranzovy">
             <div class="text-center">
-                   <form role="form">
+                   <form role="form" action="${request.route_path('add_user')}" method="POST">
                       <div class="form-group">
                         <label for="exampleInputEmail1">User Name</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="User Name">
+                        <input name="name"  class="form-control" id="exampleInputEmail1" placeholder="User Name">
                       </div>
                       <div class="form-group">
                         <label for="exampleInputPassword1">Password</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <input name="password" type="password" class="form-control" name id="exampleInputPassword1" placeholder="Password">
                       </div>
-                      <button type="submit" class="btn btn-success">login</button>
-                      <button type="button" class="btn btn-danger">Registration</button>
+                     
+                       <button  type="submit"  class="btn btn-danger">Registration</button>
+              
                     </form>
                </div>
         </div>           
@@ -77,4 +78,4 @@
 </div>
 
 </body>
-</html> 
+</html>

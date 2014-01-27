@@ -1,4 +1,4 @@
-/*.twitter-typeahead .tt-query,
+.twitter-typeahead .tt-query,
 .twitter-typeahead .tt-hint {
   margin-bottom: 0;
 }
@@ -56,7 +56,7 @@
     line-height: 1.428571429;
     border: 1px solid transparent;
 }
-*/
+
 
 .navbar-default {
     background-color: #ffffff;
@@ -147,10 +147,11 @@
 }
 
 .right-border{
-    border-right: 2px solid #e3e3e3;
+    border-right: 1px solid #e3e3e3;
 }
 .left-border{
-    border-left: 1px solid #8c959d;
+    border-left: 1px solid #e3e3e3;
+}
 }
 .list-group-item .active{
   background-color: red;
@@ -191,7 +192,7 @@
 
 a:hover{
   text-decoration: none;
-  color: red;
+
 }
 
 .center-it{
@@ -216,4 +217,15 @@ ul li:hover span{
         content: "You're visiting mobile version of website";
       }
       
+}
+
+
+.okruhle_rohy {
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+}
+
+.text-center{
+  text-align:center
 }

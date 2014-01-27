@@ -1,0 +1,244 @@
+
+
+<html>
+
+<head>
+   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+
+<link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<script src="http://getbootstrap.com/dist/js/bootstrap.js"></script>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<link href="css/main.css" rel="stylesheet" type="text/css" />
+<meta charset=utf-8 />
+<title>Joucy solution | solution for your attenadnce system</title>
+<script type="text/javascript">
+
+$( document ).ready(function() {
+  /*Select podla pozicie po kliknuti*/
+  $('.pozicie').click( function() {
+    /*najprv zobrazim vsetky ak uz bolo predtym daco ien dane..*/
+      $( ".name_of_employee" ).each(function( index ) {
+           $( this ).parent().show();
+      });
+     var vybrana_pozicia = $(this).text();  
+     $( ".pozicia" ).each(function( index ) {
+        if($( this ).text() !== vybrana_pozicia){
+          $( this ).parent().hide();
+        }
+      });
+       
+    return false; 
+  });
+
+/*
+  pomocna funkcia*/
+  function stringContains(inputString, stringToFind) 
+{
+    return (inputString.indexOf(stringToFind) != -1);
+}
+
+/*teraz hladam zhodu mien pri klkinuti do inputu..*/
+
+
+var posledna_dlzka_hladaneho_slova = 0;
+
+  $('#meno').bind('input', function() { 
+   var hladany_retazec = $(this).val().toLowerCase();
+   if(posledna_dlzka_hladaneho_slova > hladany_retazec.length){
+          $( ".name_of_employee" ).each(function( index ) {
+               $( this ).parent().show();
+          });
+      }
+    $( ".name_of_employee" ).each(function( index ) {
+        if (hladany_retazec !==''){
+            if(!stringContains($( this ).text().toLowerCase(),hladany_retazec)){
+            $( this ).parent().hide();
+            }
+        }
+        else{
+          $( this ).parent().show();
+        }
+
+      posledna_dlzka_hladaneho_slova = hladany_retazec.length;
+    
+    });
+
+});
+
+
+
+
+
+});
+</script>
+<style type="text/css">
+
+
+.bold{
+  font-weight: bold;
+}
+.seducka {
+  background-color: #eaeaea;
+}
+.zelena {
+  color: #00a810;
+}
+.cervena {
+  color: #ff0000;
+}
+.cierna {
+ background-color: #6a6363
+}
+.font-velky{
+  font-size: 28;
+}
+.border-sedy{
+  border: 1px solid red;
+}
+.ziadny-padding{
+  padding-bottom: 0px;
+  padding-top : 0px;
+}
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+
+  <div class="container">
+    <div class="navbar-header">
+
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    <div class="navbar-inner">
+      <a class="brand" href="#">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img width ="228" src="img/logo2.png"></a>
+     </div>
+    </div>
+    <div class="collapse navbar-collapse pull-right">
+      <ul class="nav navbar-nav">
+        <li ><a href="index.html"<span class= "font">Home</span></a></li>
+        <li ><a href="about.html"<span class= "font">About</span></a></li>
+        <li class="active"><a href="admin.html"><span class= "font">Admin</span></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  
+  </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+
+      <div class="col-md-3">
+                <div class="list-group">
+             <a class="list-group-item " href="admin.html">
+            <div  >
+           Dashboard<span class="glyphicon glyphicon-home pull-right"></span>
+            </div>
+          </a>
+           <a class="list-group-item" href="empolyee.html">
+          Employess<span class="glyphicon glyphicon-user pull-right"></span>
+            </a>
+            <a class="list-group-item active" href="events.html">
+          Events<span class="glyphicon glyphicon-lock pull-right"></span>
+            </a>
+               <a class="list-group-item" href="stats.html">
+          Stats<span class="glyphicon glyphicon-stats pull-right"></span>
+            </a>
+             <a class="list-group-item" href="customize.html">
+          Customize<span class="glyphicon glyphicon-cog pull-right"></span>
+            </a>
+            
+ 
+          </div>
+          <br><br>
+           <div class="list-group">
+
+        <a class="list-group-item" href="help.html">
+          Help<span class="  glyphicon glyphicon-info-sign pull-right"></span>
+            </a>
+          </div>
+      </div>
+
+       <div class="col-md-9">
+               <span class="font seda bold">Events</span><br><br>
+      
+               
+          <div class="panel panel-default">
+            <div class="panel-heading"><span class="bold">List of events</span></div>
+
+            <div class="row">
+             <!--  row nad listom empolye tj vyhldavanie + filtrovanie -->
+               <div class="col-md-7 ">
+                <br>
+                  <div class="input-group">
+                    <span class="input-group-addon">Search</span>
+                    <input id="meno" type="text" class="form-control" placeholder="Name of events">
+                  </div>
+                 </div>
+                  <div class="col-md-3  col-md-offset-2">
+                    <br>
+                   <button type="button" class="btn btn-default">
+                      <span class="glyphicon glyphicon-plus oranzova"> </span>&nbsp
+                     <span style="font-size: 1em"> Add event</span>
+                   </button>
+                 </div>
+
+              </div>
+               <br>
+              <table class="table table-hover"> 
+                 <thead>
+                    <tr>
+                      <th>#</th>
+                      
+                        <th>Name of task</th>
+                        <th>Date</th>
+                         <th>Time</th>
+                         <th>Finished</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td> 1</td>
+                      <td class="name_of_employee" ><a href="profil-events.html">Daily routine</a></td>
+                      <td >12.12.2013</td>
+                       <td>8:00 - 16:00</td>
+                        <td> <span class="glyphicon glyphicon-remove cervena"></span> </td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td class="name_of_employee" ><a href="profil-events.html">Service of car in Petrzalka</a> </td>
+                      <td >12.12.2013</td>
+                      <td> 16:00 - 18:00</td>
+                      <td>  <span class="glyphicon glyphicon-remove cervena"></span> </td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td class="name_of_employee"><a href="profil-events.html">Daily routine</a></td>
+                      <td >13.12.2013</td>
+                      <td>8:00 - 16:00 </td>
+                      <td>  <span class="glyphicon glyphicon-remove cervena"></span> </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+        </tbody>
+      </table>
+
+
+
+     
+      </div><!-- koniec celeho borderu imaginarneho -->
+  
+
+
+</div>
+
+</body>
+</html>
