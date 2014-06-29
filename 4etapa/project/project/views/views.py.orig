@@ -1,0 +1,151 @@
+from pyramid.response import Response
+from pyramid.view import view_config
+from collections import defaultdict
+from sqlalchemy.exc import DBAPIError
+from project.views import query
+import datetime
+
+import json
+
+import project.views.sentiment as sentiment
+
+import project.views.topky_views as topky
+import project.views.sme_views as sme
+import project.views.smediskusie_views as sme_diskusie
+import project.views.pravda_views as pravda
+import project.views.keywords as keywords
+
+import project.views.sme_sk as sme_sk
+
+@view_config(route_name='home', renderer='project:templates/home.mako')
+def my_view(request):
+    return{}
+@view_config(route_name='daily_evaluation', renderer='project:templates/daily.mako')
+def daily(request):
+
+    return{}
+
+
+@view_config(route_name='jpie', renderer='json')
+def jpie(request):
+    date = request.matchdict['datum']
+    category = request.matchdict['kategoria']
+    bad_sen_of_articles = query.number_of_bad_sen_of_articles(request, date, category)
+    happy_sen_of_articles = query.number_of_good_sen_of_articles(request, date, category)
+    # happy_sen_of_feedbacks = query.number_of_good_sen_of_feedbacks(request, date)
+    # bad_sen_of_feedbacks = query.number_of_bad_sen_of_feedbacks(request, date)
+    # print(bad_sen_of_articles)  
+    # print(bad_sen_of_feedbacks)
+    vysledok={'Bad' : bad_sen_of_articles, 'Happy' : happy_sen_of_articles, }
+              # 'Bad_feed': bad_sen_of_feedbacks, 'Happy_feed' : happy_sen_of_feedbacks }
+
+    return vysledok
+@view_config(route_name='jbar', renderer='json')
+def jbar(request):
+    date = request.matchdict['datum']
+    category = request.matchdict['kategoria']
+    vysledok={'skore' : query.query_one_day_for_bar(request, date, category) }
+
+    return vysledok
+
+@view_config(route_name='daily_evaluation', request_method="POST", renderer='project:templates/daily.mako')
+def daily_evaluation(request):
+    print(query.query_all_day(request))
+    return{'text' : str(query.sentiment_for_specific_day(request))}
+
+
+@view_config(route_name='top_ten', renderer='project:templates/topten.mako')
+def top_ten(request):
+    date = request.matchdict['datum']
+    return{'pozitivne' : query.top_ten_positive_articles_in_day(request, date) , 'negativne' : query.top_ten_negative_articles_in_day(request, date)}
+
+@view_config(route_name='graf', renderer='project:templates/graf.mako')
+def graf(request):
+    hups = query.the_most_positive_article_in_day(request, datetime.date.today())
+    print('___________________--')
+    print(type(query.query_all_day(request)))
+    za_den = 'lol'
+    return{'vysledky' : query.query_all_day(request), 'skuska' : za_den}
+
+@view_config(route_name='json', renderer='json')
+def json_to_graf(request):
+    zdroj = request.matchdict['zdroj']
+
+    if zdroj == 'vsetky':
+        return{'vysledky' : query.query_all_day (request)}
+    elif (zdroj == 'ekonomika') or (zdroj == 'kultura') or (zdroj == 'sport'):
+        return{'vysledky' : query.query_value_of_category(request, zdroj)}
+    elif (zdroj == 'diskusie'):
+        return{'vysledky' : query.query_all_day_feedback(request)}
+    else:
+        return{'vysledky' : query.sentiment_of_specific_type(request,zdroj)}
+
+@view_config(route_name='json_den_clanky', renderer='json')
+def json_to_text_of_node(request):
+    zdroj = request.matchdict['zdroj']
+    datum = request.matchdict['den']
+    if (zdroj == 'vsetky') or (zdroj == 'ekonomika') or (zdroj == 'kultura'):
+        return{'pozitivne' : query.the_most_positive_article_in_day_with_category(request, datum, zdroj) ,'negativne' : query.the_most_negative_article_in_day_with_category(request, datum, zdroj) }
+    else: 
+        return{'pozitivne' : query.the_most_positive_article_in_day_with_medium(request, datum, zdroj) ,'negativne' : query.the_most_negative_article_in_day_with_medium(request, datum, zdroj) }
+
+
+@view_config(route_name='home', request_method="POST", renderer='project:templates/home.mako')
+def sentimental_hodnota_textu(obsah, request):
+    
+    obsah = request.POST['textarea']
+    diac = request.POST['diac']
+    diacritic = no_diacritic = True
+    if diac == 'withDiac':
+        no_diacritic = False
+    elif diac == 'withoutDiac':
+        diacritic = False
+    #sentiment.analyza_textu(obsah, request, diacritic, no_diacritic)
+    print('Slova: ')
+    sentiment.analyzuj_text_po_slovach(obsah, request, diacritic, no_diacritic)
+    print('Vety: ')
+    sentiment.analyzuj_text_po_vetach(obsah, request, diacritic, no_diacritic)
+    print('Kusky: ')
+    sentiment.analyzuj_text_po_kuskoch(obsah, request, diacritic, no_diacritic)
+    
+    vysledok = sentiment.hodnota_textu(obsah, request, diacritic, no_diacritic)
+<<<<<<< HEAD
+    info = sentiment.hlbsia_analizu_textu(obsah, request, diacritic, no_diacritic)
+    return{'text': obsah , 'vysledok': str(vysledok), 'info' : info}
+=======
+    return{'text': obsah , 'vysledok': str(vysledok), 'typ': diac}
+>>>>>>> eea930cb8ff9ae598ee377bbe0f5ef3460cf309b
+
+@view_config(route_name='sme_parser', renderer='project:templates/home.mako')
+def sme_parser(request):
+    sme.parser(request)
+    return{'text': 'some random text'}
+
+@view_config(route_name='smediskusie_parser', renderer='project:templates/home.mako')
+def smediskusie_parser(request):
+    sme_diskusie.parser(request)
+    return{'text': 'some random text'}
+
+@view_config(route_name='sme_sk', renderer='project:templates/home.mako')
+def www_sme_sk(request):
+    sme_sk.parser(request)
+    return{'text': 'some random text'}
+
+@view_config(route_name='topky_parser', renderer='project:templates/home.mako')
+def topky_parser(request):
+    topky.parser(request)
+    return{'text': 'some random text'}
+
+@view_config(route_name='pravda_parser', renderer='project:templates/home.mako')
+def pravda_parser(request):
+    pravda.parser(request)
+    return{'text': 'some random text'}
+
+@view_config(route_name='parse_all', renderer='project:templates/home.mako')
+def all_parser(request):
+    sme.parser(request)
+    sme_diskusie.parser(request)
+    sme_sk.parser(request)
+    topky.parser(request)
+    pravda.parser(request)
+    return{'text': 'some random text'}

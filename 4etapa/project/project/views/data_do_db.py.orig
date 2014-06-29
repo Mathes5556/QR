@@ -1,0 +1,55 @@
+from project.models import (
+    DBSession,
+    )
+
+def spracuj_data_do_db(article, request):
+    #pridane OBJEKTU article do db
+<<<<<<< HEAD
+    #ToDO doplnit podmienky na clzdku
+
+    if len(article.title) > 150:
+        article.title = article.title[:150]
+    DBSession.add(article)
+    return article
+ 
+    # if article.type > 20:
+    #     article.type = article.type[:20]
+    # if article.region > 30:
+    #     article.region = article.region[:30]
+    # if article.author > 30:
+    #     article.author = article.author[:30]
+ 
+=======
+
+    if is_article_morbid(article):
+    	article.sentiment = -2
+
+    DBSession.add(article)
+    return article
+
+def is_article_morbid(article):
+	morbidne_slova = (
+					'zahynul',
+					'uhynul',
+					'usmrtil',
+					'usmrtenie',
+					'zomrel',
+					'úmrtie',
+					'zabil',
+					'zabijak',
+					'zavraždil',
+					'vražd',
+					'vraždenie',
+					'vrah',
+					'tragick',
+					'†',
+					'†',
+					'✝',
+					'✞',
+					'✟',)
+	for slovo in morbidne_slova:
+		if article.title.find(slovo) != -1:
+			print(slovo)
+			return True
+	return False
+>>>>>>> 45858dea2ed468955c9a27f9cfe7b3af7544ff3f

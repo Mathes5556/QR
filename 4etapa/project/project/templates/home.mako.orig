@@ -1,0 +1,131 @@
+<html>
+<style type="text/css">
+#baromter {
+
+  position: absolute;
+  top: 2em;
+  right: 5%;
+}
+#piechart {
+
+  position: absolute;
+  top: 17em;
+  right: -2em;
+}
+</style>
+  <head>
+ <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+    var qsParm = new Array();
+function qs() {
+var query = window.location.search.substring(1);
+var parms = query.split('&');
+for (var i=0; i<parms.length; i++) {
+var pos = parms[i].indexOf('=');
+if (pos > 0) {
+var key = parms[i].substring(0,pos);
+var val = parms[i].substring(pos+1);
+qsParm[key] = val;
+alert(val);
+}
+}
+}
+      function prehod_na_stupne(hodnota){
+        return (Math.round(hodnota * 30 * 100) / 100);
+      }    
+     function nakresli_barometer(hodnota) {
+          google.load('visualization', '1', {packages:['gauge']});
+          google.setOnLoadCallback(drawChart2);
+        function drawChart2() {
+          console.log('barometer');
+
+                                data_pre_bar = google.visualization.arrayToDataTable([
+                        ['Label', 'Value'],
+                        ['Nalada', hodnota],]);
+
+                      options_bar = {
+                        width: 400, height: 250,
+                        greenFrom: 0, greenTo: 30,
+                        redFrom: -30, redTo: 0,
+                        minorTicks: 5,
+                        min: -30, max : 30,
+                      };
+
+                      barometer = new google.visualization.Gauge(document.getElementById('baromter'));
+                      barometer.draw(data_pre_bar, options_bar);
+                      
+
+
+       
+              }
+      }
+      console.log('juhuuu');
+/*$( "#baromter" ).html('nalada dnešného dňa: <br><br>');
+        $( "#baromter" ).append(nakresli_barometer(5));  */
+</script>
+<head>
+
+<%block name="page_content">
+<div style="text-align:center">
+<form name="text" action="${request.route_path('home')}" method="POST">
+<textarea cols="90" rows="30" name="textarea">
+% if text:
+${text}
+% else:
+Please put your text here...
+% endif
+</textarea>
+<br />
+<input type="radio" name="diac" value="withDiac" 
+%if typ == 'withDiac':
+ checked="checked" 
+%endif
+/>s diakritikou
+<input type="radio" name="diac" value="withoutDiac" 
+%if typ == 'withoutDiac':
+ checked="checked" 
+%endif
+/>bez diakritiky
+<input type="radio" name="diac" value="both" 
+%if typ == 'both': 
+ checked="checked" 
+ %endif
+  />aj s aj bez diakritiky (?)
+<br /><br />
+<input type="submit" value="Nájdi sentiment">
+<br /><br />
+</form>
+
+% if vysledok:
+<script type="text/javascript">
+
+var hodnota = ${vysledok};
+console.log(hodnota)
+$( "#baromter" ).html('nalada dnešného dňa: <br><br>');
+        $( "#baromter" ).append(nakresli_barometer(7));  
+</script>
+<div id='baromter'>
+</div>
+<textarea name="vysledok">
+% if vysledok == '0':
+V texte sa nenašiel sentiment
+% else:
+
+${vysledok}
+% endif
+% else:
+Miesto na výsledok
+% endif
+</textarea>
+<<<<<<< HEAD
+
+=======
+% if slova:
+<br />
+<textarea name="" id="" cols="100" rows="5">
+${slova}
+</textarea>
+% endif
+>>>>>>> 45858dea2ed468955c9a27f9cfe7b3af7544ff3f
+</%block>

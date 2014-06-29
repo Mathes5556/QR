@@ -1,0 +1,1 @@
+prehod_na_stupne = (hodnota) ->  Math.round(hodnota * 30 * 100) / 100  

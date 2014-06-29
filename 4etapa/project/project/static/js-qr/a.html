@@ -1,0 +1,291 @@
+<script type="text/javascript" src="grid.js"></script>
+<script type="text/javascript" src="version.js"></script>
+<script type="text/javascript" src="detector.js"></script>
+<script type="text/javascript" src="formatinf.js"></script>
+<script type="text/javascript" src="errorlevel.js"></script>
+<script type="text/javascript" src="bitmat.js"></script>
+<script type="text/javascript" src="datablock.js"></script>
+<script type="text/javascript" src="bmparser.js"></script>
+<script type="text/javascript" src="datamask.js"></script>
+<script type="text/javascript" src="rsdecoder.js"></script>
+<script type="text/javascript" src="gf256poly.js"></script>
+<script type="text/javascript" src="gf256.js"></script>
+<script type="text/javascript" src="decoder.js"></script>
+<script type="text/javascript" src="qrcode.js"></script>
+<script type="text/javascript" src="findpat.js"></script>
+<script type="text/javascript" src="alignpat.js"></script>
+<script type="text/javascript" src="databr.js"></script>
+<script type="text/javascript">
+    
+    var gCtx = null;
+var gCanvas = null;
+var c=0;
+var stype=0;
+var gUM=false;
+var webkit=false;
+var moz=false;
+var v=null;
+
+var imghtml='<div id="qrfile"><canvas id="out-canvas" width="320" height="240"></canvas>'+
+    '<div id="imghelp">drag and drop a QRCode here'+
+    '<br>or select a file'+
+    '<input type="file" onchange="handleFiles(this.files)"/>'+
+    '</div>'+
+'</div>';
+
+var vidhtml = '<video id="v" autoplay></video>';
+
+function dragenter(e) {
+  e.stopPropagation();
+  e.preventDefault();
+}
+
+function dragover(e) {
+  e.stopPropagation();
+  e.preventDefault();
+}
+function drop(e) {
+  e.stopPropagation();
+  e.preventDefault();
+
+  var dt = e.dataTransfer;
+  var files = dt.files;
+  if(files.length>0)
+  {
+    handleFiles(files);
+  }
+  else
+  if(dt.getData('URL'))
+  {
+    qrcode.decode(dt.getData('URL'));
+  }
+}
+
+function handleFiles(f)
+{
+    var o=[];
+    
+    for(var i =0;i<f.length;i++)
+    {
+        var reader = new FileReader();
+        reader.onload = (function(theFile) {
+        return function(e) {
+            gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
+
+            qrcode.decode(e.target.result);
+        };
+        })(f[i]);
+        reader.readAsDataURL(f[i]); 
+    }
+}
+
+function initCanvas(w,h)
+{
+    gCanvas = document.getElementById("qr-canvas");
+    gCanvas.style.width = w + "px";
+    gCanvas.style.height = h + "px";
+    gCanvas.width = w;
+    gCanvas.height = h;
+    gCtx = gCanvas.getContext("2d");
+    gCtx.clearRect(0, 0, w, h);
+}
+
+
+function captureToCanvas() {
+    if(stype!=1)
+        return;
+    if(gUM)
+    {
+        try{
+            gCtx.drawImage(v,0,0);
+            try{
+                qrcode.decode();
+            }
+            catch(e){       
+                console.log(e);
+                setTimeout(captureToCanvas, 500);
+            };
+        }
+        catch(e){       
+                console.log(e);
+                setTimeout(captureToCanvas, 500);
+        };
+    }
+}
+
+function htmlEntities(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function read(a)
+{
+    var html="<br>";
+    if(a.indexOf("http://") === 0 || a.indexOf("https://") === 0)
+        html+="<a target='_blank' href='"+a+"'>"+a+"</a><br>";
+    html+="<b>"+htmlEntities(a)+"</b><br><br>";
+    document.getElementById("result").innerHTML=html;
+    alert(a);
+}   
+
+function isCanvasSupported(){
+  var elem = document.createElement('canvas');
+  return !!(elem.getContext && elem.getContext('2d'));
+}
+function success(stream) {
+    if(webkit)
+        v.src = window.webkitURL.createObjectURL(stream);
+    else
+    if(moz)
+    {
+        v.mozSrcObject = stream;
+        v.play();
+    }
+    else
+        v.src = stream;
+    gUM=true;
+    setTimeout(captureToCanvas, 500);
+}
+        
+function error(error) {
+    gUM=false;
+    return;
+}
+
+function load()
+{
+    if(isCanvasSupported() && window.File && window.FileReader)
+    {
+        initCanvas(800, 600);
+        qrcode.callback = read;
+        document.getElementById("mainbody").style.display="inline";
+        setwebcam();
+    }
+    else
+    {
+        document.getElementById("mainbody").style.display="inline";
+        document.getElementById("mainbody").innerHTML='<p id="mp1">QR code scanner for HTML5 capable browsers</p><br>'+
+        '<br><p id="mp2">sorry your browser is not supported</p><br><br>'+
+        '<p id="mp1">try <a href="http://www.mozilla.com/firefox"><img src="firefox.png"/></a> or <a href="http://chrome.google.com"><img src="chrome_logo.gif"/></a> or <a href="http://www.opera.com"><img src="Opera-logo.png"/></a></p>';
+    }
+}
+
+function setwebcam()
+{
+    document.getElementById("result").innerHTML="- scanning -";
+    if(stype==1)
+    {
+        setTimeout(captureToCanvas, 500);    
+        return;
+    }
+    var n=navigator;
+    document.getElementById("outdiv").innerHTML = vidhtml;
+    v=document.getElementById("v");
+
+    if(n.getUserMedia)
+        n.getUserMedia({video: true, audio: false}, success, error);
+    else
+    if(n.webkitGetUserMedia)
+    {
+        webkit=true;
+        n.webkitGetUserMedia({video: true, audio: false}, success, error);
+    }
+    else
+    if(n.mozGetUserMedia)
+    {
+        moz=true;
+        n.mozGetUserMedia({video: true, audio: false}, success, error);
+    }
+
+    //document.getElementById("qrimg").src="qrimg2.png";
+    //document.getElementById("webcamimg").src="webcam.png";
+    document.getElementById("qrimg").style.opacity=0.2;
+    document.getElementById("webcamimg").style.opacity=1.0;
+
+    stype=1;
+    setTimeout(captureToCanvas, 500);
+}
+function setimg()
+{
+    document.getElementById("result").innerHTML="";
+    if(stype==2)
+        return;
+    document.getElementById("outdiv").innerHTML = imghtml;
+    //document.getElementById("qrimg").src="qrimg.png";
+    //document.getElementById("webcamimg").src="webcam2.png";
+    document.getElementById("qrimg").style.opacity=1.0;
+    document.getElementById("webcamimg").style.opacity=0.2;
+    var qrfile = document.getElementById("qrfile");
+    qrfile.addEventListener("dragenter", dragenter, false);  
+    qrfile.addEventListener("dragover", dragover, false);  
+    qrfile.addEventListener("drop", drop, false);
+    stype=2;
+}
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-24451557-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<html>
+<head>
+  <meta name="description" content="QR Code scanner" />
+  <meta name="keywords" content="qrcode,qr code,scanner,barcode,javascript" />
+  <meta name="language" content="English" />
+  <meta name="copyright" content="Lazar Laszlo (c) 2011" />
+  <meta name="Revisit-After" content="1 Days"/>
+  <meta name="robots" content="index, follow"/>
+  <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Web QR</title>
+
+</head>
+
+<body>
+
+
+<div id="result"></div>
+<div id="main">
+<div id="header">
+<div style="position:relative;top:+20px;left:0px;"><g:plusone size="medium"></g:plusone></div>
+<p id="mp1">
+QR Code scanner
+</p>
+
+</div>
+<div id="mainbody">
+<table class="tsel" border="0" width="100%">
+<tr>
+<td valign="top" align="center" width="50%">
+<table class="tsel" border="0">
+<tr>
+<td><img class="selector" id="webcamimg" onclick="setwebcam()" align="left" /></td>
+<td><img class="selector" id="qrimg" onclick="setimg()" align="right"/></td></tr>
+<tr><td colspan="2" align="center">
+<div id="outdiv">
+</div></td></tr>
+</table>
+</td>
+</tr>
+<tr><td colspan="3" align="center">
+<img src="down.png"/>
+</td></tr>
+<tr><td colspan="3" align="center">
+<div id="result"></div>
+</td></tr>
+</table>
+</div>&nbsp;
+
+</div>
+<canvas id="qr-canvas" width="800" height="600"></canvas>
+<script type="text/javascript">load();</script>
+</body>
+
+</html>

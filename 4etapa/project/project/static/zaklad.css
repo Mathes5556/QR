@@ -1,0 +1,137 @@
+#header {
+  position: absolute;
+  top: -2px;
+  right: 0;
+  width: 100%;
+  background-color: #65A5D1;
+  height: 3em;
+
+}
+#header a{
+  text-decoration: none;
+  color: white  ;
+  font-size:  1.1em;
+  }
+  #header a:hover{
+    color: red;
+  }
+#baromter {
+
+  position: absolute;
+  top: 0em;
+  right: 5%;
+
+}
+#piechart {
+
+  position: absolute;
+  top: 15em;
+  right: -3em;
+
+}
+#tool_vysledky {
+
+    margin-top: 5em;
+    text-align: center;
+    position: relative;
+/*  border: 1px solid black;*/
+
+}
+#logo {
+  position: absolute;
+  left: 10%;
+  top: 10%;
+}
+
+#menu {
+  position: absolute;
+  left: 65%;
+  top: 30%;
+
+}
+
+#menu1 {
+  position: absolute;
+  left: 75%;
+  top: 30%;
+}
+#menu2 {
+  position: absolute;
+  left: 85%;
+  top: 30%;
+}
+#zadaj_text {
+  margin-top: 5em;
+}
+#polohoha_textu {
+position:  absolute;
+top: 5px;
+left: 500px;
+z-index: 8;
+}
+a{
+  color: black;
+ 
+}
+.terminal-poz {
+ display: none;
+  border-radius:25px;
+  border: 3px solid green;
+    position: relative;
+    width: 600px;
+  float: left;
+  margin-right: 400px;
+    margin-left: 130px;
+     margin-bottom: 10px;
+
+
+}
+.terminal-neg {
+    display: none;
+  border-radius:25px;
+  position: relative;
+  float: left;
+   width: 600px;
+
+  border: 3px solid red;
+
+  margin-right: 400px;
+  margin-left: 130px;
+}
+#chart_div {
+
+    position: relative;
+  float: left;
+  z-index: 3;
+}
+fieldset {
+   border-radius:25px;
+   position: relative;
+  float: left;
+    margin-left: 130px;
+}
+#pozitivne {
+   padding: 5px;
+  position: relative;
+  float: left;
+  border: 1px solid green;
+     border-radius:25px;
+  margin-top: 50px;
+  background-color: #C9F76F;
+  width: 520px;
+   height: 350px;
+}
+#negativne {
+  padding: 5px;
+  position: relative;
+  float: right;
+  border: 1px solid red;
+     border-radius:25px;
+  margin-top: 50px;
+  background-color: #FF9273;
+  width: 520px;
+  height: 350px;
+}
+#sipky {
+  margin-top: 200px;
+}
